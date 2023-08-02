@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Fraud Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(to bottom right, #0e1b3c, #000000, #020e20, #ffe100, #000000);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            height: 800px;
+            width: 600px;
+            margin: 0 auto;
+            padding: 24px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px #00ccff;
+            letter-spacing: 0.5px;
+            border-bottom: 4px solid #ffffff;
+            padding-bottom: 10px;
+            color: #00417e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            color: #333;
+            border: 2px solid #fff;
+            letter-spacing: 0.5px;
+        }
+        th, td {
+            padding: 1px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            color: #000;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px #000;
+            letter-spacing: 2px;
+            border: 2px solid #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .fraud-message {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px #000;
+            letter-spacing: 0.5px;
+            border: 4px solid #fff;
+            padding: 20px;
+            color: #ffa07a;
+        }
+        .fraud {
+            color: #ff5555;
+        }
+        .not-fraud {
+            color: #66ff66;
+        }
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+        .pt{
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px #ffa4a4;
+            letter-spacing: 0.5px;
+            border: 4px solid #fff;
+            padding: 20px;
+            color: #dc0000;
+        }
+        .note{
+            color:#000;
+            text-align: center;
+            font-size: 12px;
+            padding: 30px;
+        }
+        @keyframes blinker {
+          50% {
+            opacity: 0;
+          }
+        }
+    </style>
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="container">
+      <h1>REAL-TIME FRAUD DETECTION</h1>
+      <table>
+          <tr>
+              <td>Transaction Date & Time</td>
+              <td>{{trans_date_trans_time}}</td>
+          </tr>
+          <tr>
+              <td>Credit Card Number</td>
+              <td>{{cc_num}}</td>
+          </tr>
+          <tr>
+              <td>Merchant</td>
+              <td>{{merchant}}</td>
+          </tr>
+          <tr>
+              <td>Category</td>
+              <td>{{category}}</td>
+          </tr>
+          <tr>
+              <td>Amount</td>
+              <td>{{amt}}</td>
+          </tr>
+          <tr>
+              <td>First Name</td>
+              <td>{{first}}</td>
+          </tr>
+          <tr>
+              <td>Last Name</td>
+              <td>{{last}}</td>
+          </tr>
+          <tr>
+              <td>Gender</td>
+              <td>{{gender}}</td>
+          </tr>
+          <tr>
+              <td>Street</td>
+              <td>{{street}}</td>
+          </tr>
+          <tr>
+              <td>City</td>
+              <td>{{city}}</td>
+          </tr>
+          <tr>
+              <td>State</td>
+              <td>{{state}}</td>
+          </tr>
+          <tr>
+              <td>Zip Code</td>
+              <td>{{zip}}</td>
+          </tr>
+          <tr>
+              <td>Latitude</td>
+              <td>{{lat}}</td>
+          </tr>
+          <tr>
+              <td>Longitude</td>
+              <td>{{long}}</td>
+          </tr>
+          <tr>
+              <td>City Population</td>
+              <td>{{city_pop}}</td>
+          </tr>
+          <tr>
+              <td>Occupation</td>
+              <td>{{job}}</td>
+          </tr>
+          <tr>
+              <td>Date of Birth</td>
+              <td>{{dob}}
+          </tr>
+          <tr>
+              <td>Transaction Number</td>
+              <td>{{trans_num}}
+          </tr>
+          <tr>
+              <td>Unix Time</td>
+              <td>{{unix_time}}
+          </tr>
+          <tr>
+              <td>Merchant Latitude</td>
+              <td>{{merch_lat}}
+          </tr>
+          <tr>
+              <td>Merchant Longitude</td>
+              <td>{{merch_long}}
+          </tr>
+          </table>
+          
+      {% if result == 0%}
+        <div class="fraud-message not-fraud">THIS TRANSACTION IS NOT FRAUDULENT</div>
+      {%elif result == 1%}
+        <div class="fraud-message fraud blink">THIS TRANSACTION IS FRAUDULENT</div>
+      {%endif%}
+        <div style="font-family: 'Orbitron', sans-serif;" class="pt">PROCESSING TIME :<br> {{ptime}}s</div>
+        <div class="note"> use Chrome for best experience</div>
+        <script>
+            setTimeout(function(){
+            window.location.reload(1);
+            },
+            0.01);
+        </script>
+        <!-- <script>
+        var source = new EventSource("");
+        source.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            // update your HTML elements with received data
+            console.log(data);
+            };
+        </script> -->
+
+
+</body>
+</html>
+
